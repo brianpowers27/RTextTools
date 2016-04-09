@@ -5,7 +5,7 @@ create_matrix <- function(textColumns, language="english", minDocFreq=1, maxDocF
         return(wordStem(unlist(split),language=language))
     }
     
-    tokenize_ngrams <- function(x, n=ngramLength) return(rownames(as.data.frame(unclass(textcnt(x,method="string",n=n)))))
+    tokenize_ngrams <- function(x, n=ngramLength) return(rownames(as.data.frame(unclass(textcnt(x$content,method="string",n=n)))))
 	
 	control <- list(bounds=list(local=c(minDocFreq,maxDocFreq)),language=language,tolower=toLower,removeNumbers=removeNumbers,removePunctuation=removePunctuation,stopwords=removeStopwords,stripWhitespace=stripWhitespace,wordLengths=c(minWordLength,maxWordLength),weighting=weighting)
         
@@ -28,7 +28,7 @@ create_matrix <- function(textColumns, language="english", minDocFreq=1, maxDocF
         terms <- colnames(originalMatrix[,which(!colnames(originalMatrix) %in% colnames(matrix))])
 
         weight <- 0
-        if (attr(weighting,"Acronym")=="tf-idf") weight <- 0.000000001
+        if (attr(weighting,"acronym")=="tf-idf") weight <- 0.000000001
         amat <- matrix(weight,nrow=nrow(matrix),ncol=length(terms))
         colnames(amat) <- terms
         rownames(amat) <- rownames(matrix)
